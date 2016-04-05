@@ -25,7 +25,7 @@ sudo mkdir /usr/local/php7
 
 git clone https://github.com/php/php-src.git
 cd php-src
-git checkout PHP-7.0.5
+git checkout PHP-7.0.4
 git pull
 ./buildconf --force
 
@@ -66,7 +66,9 @@ CONFIGURE_STRING="--prefix=/usr/local/php7 \
                   --with-curl \
                   --enable-fpm \
                   --with-fpm-user=www-data \
-                  --with-fpm-group=www-data"
+                  --with-fpm-group=www-data \
+                  --enable-maintainer-zts \
+                  --enable-pthreads"
 
 ./configure $CONFIGURE_STRING
 
