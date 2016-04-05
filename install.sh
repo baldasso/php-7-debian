@@ -35,15 +35,22 @@ rm -rf pthreads-$PTHREADS_VERSION/
 ### Install APCu ###
 # APCu version
 APCU_VERSION=5.1.3
-wget https://pecl.php.net/get/apcu-APCU_VERSION.tgz
-tar xzf apcu-$PTHREADS_VERSION.tgz
-cd apcu-$PTHREADS_VERSION
+wget https://pecl.php.net/get/apcu-$APCU_VERSION.tgz
+tar xzf apcu-$APCU_VERSION.tgz
+cd apcu-$APCU_VERSION
 /usr/local/php7/bin/phpize
 ./configure --with-php-config=/usr/local/php7/bin/php-config
 make
 sudo make install
 cd $BASEDIR/../
-rm -rf apcu-$PTHREADS_VERSION/
+rm -rf apcu-$APCU_VERSION/
 
+# Remove trash
+rm -rf install
+rm -rf package.xml
+
+# Create symlink to php7
+ln -s /usr/local/php7/bin/php /usr/local/bin/php7
+chmod +x /usr/local/bin/php7
 
 service php7-fpm start
