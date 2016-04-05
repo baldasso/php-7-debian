@@ -1,5 +1,6 @@
 #!/bin/bash
-cd "$(dirname "$0")"
+BASEDIR=$(dirname "$0")
+cd $BASEDIR
 
 # Create a dir for storing PHP module conf
 mkdir /usr/local/php7/etc/conf.d
@@ -17,5 +18,32 @@ cp conf/modules.ini /usr/local/php7/etc/conf.d/modules.ini
 cp conf/php7-fpm.init /etc/init.d/php7-fpm
 chmod +x /etc/init.d/php7-fpm
 update-rc.d php7-fpm defaults
+
+### Install pthreads ###
+# Pthreads version
+PTHREADS_VERSION=3.1.6
+wget https://pecl.php.net/get/pthreads-$PTHREADS_VERSION.tgz
+tar xzf pthreads-$PTHREADS_VERSION.tgz
+cd pthreads-$PTHREADS_VERSION
+/usr/local/php7/bin/phpize
+./configure --with-php-config=/usr/local/php7/bin/php-config
+make
+sudo make install
+cd $BASEDIR/../
+rm -rf pthreads-$PTHREADS_VERSION/
+
+### Install APCu ###
+# APCu version
+APCU_VERSION=5.1.3
+wget https://pecl.php.net/get/apcu-APCU_VERSION.tgz
+tar xzf apcu-$PTHREADS_VERSION.tgz
+cd apcu-$PTHREADS_VERSION
+/usr/local/php7/bin/phpize
+./configure --with-php-config=/usr/local/php7/bin/php-config
+make
+sudo make install
+cd $BASEDIR/../
+rm -rf apcu-$PTHREADS_VERSION/
+
 
 service php7-fpm start
